@@ -8,7 +8,7 @@ mine();
 
 function mine() {
     console.log('---------Starting to mine a new block------------')
-    let block = new Block(Date.now(), { 'junus': 100, 'manu': 50 },);
+    let block = new Block(Date.now(), { 'Jannek': 100, 'Marius': 50 },);
     block.mine();
     jChain.addBlock(block)
     console.log(jChain.chain);

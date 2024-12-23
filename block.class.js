@@ -1,19 +1,19 @@
 class Block {
-    constructor(time = Date.now().data = {}) {
+    constructor(time = Date.now(), data = {}) {
         this.time = time;
         this.data = data;
         this.lasthash = '';
         this.nonce = 0;
-        this.difficulty = '0000';
+        this.difficulty = '00';
     }
 
     createHash() {
-        return sha256(this.time + JSON.stringify(this.data) + this.lasthash)
+        return sha256(this.nonce + this.lasthash + this.time + JSON.stringify(this.data));
     }
 
     mine() {
         let hash = this.createHash();
-        while (hash.statsWith(this.difficulty)) {
+        while (!hash.startsWith(this.difficulty)) {
             this.nonce++;
             hash = this.createHash();
         }

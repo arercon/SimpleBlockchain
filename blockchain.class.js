@@ -4,8 +4,9 @@ class Blockchain {
     }
 
     addBlock(block) {
-        block.lastHash = this.getLastBlock().createHash();
-        this.chain.push(Object.freeze(block))
+        const lastBlock = this.getLastBlock();
+        block.lastHash = lastBlock ? lastBlock.createHash() : null;
+        this.chain.push(Object.freeze(block));
     }
 
     isValid() {
@@ -24,3 +25,5 @@ class Blockchain {
         return this.chain[this.chain.length - 1];
     }
 }
+
+module.exports = { Blockchain };
