@@ -21,23 +21,23 @@
                 <section>
                     <h2>Transaktionen</h2>
                     <div class="mb-16">
-                        <select name="from" id="from" class="mr-16">
-                            <option value="" disabled>Von</option>
-                            <option value="Marius">Marius</option>
+                        <select name="from" id="from" class="mr-16" onchange="validateTransaction()">
+                            <option value="" disabled selected>Von</option>
                             <option value="Jannek">Jannek</option>
-                            <option value="Luxy">Luxy</option>
+                            <option value="Marius">Marius</option>
+                            <option value="Timo">Timo</option>
                         </select>
 
-                        <select name="to" id="to">
-                            <option value="" disabled>An</option>
-                            <option value="Marius">Marius</option>
+                        <select name="to" id="to" onchange="validateTransaction()">
+                            <option value="" disabled selected>An</option>
                             <option value="Jannek">Jannek</option>
-                            <option value="Luxy">Luxy</option>
+                            <option value="Marius">Marius</option>
+                            <option value="Timo">Timo</option>
                         </select>
                     </div>
                     <div>
                         <input type="number" min="1" placeholder="Betrag" id="amount" class="mr-16">
-                        <button>Senden</button>
+                        <button id="sendButton" onclick="sendMoney()">Senden</button>
                     </div>
                 </section>
                 <section>
@@ -53,10 +53,7 @@
                 </section>
             </div>
             <div class="col-850">
-                <section>
-                    <h2>Transaktionen</h2>
-                    <div class="card">Marius 🠖 Jannek $5</div>
-                    <div class="card">Jannek 🠖 Luxy $5</div>
+                <section id="transactionContainer">
                 </section>
                 <section>
                     <h2>Daten</h2>

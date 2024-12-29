@@ -4,7 +4,7 @@ class Block {
         this.data = data;
         this.lasthash = '';
         this.nonce = 0;
-        this.difficulty = '0';
+        this.difficulty = '00';
     }
 
     createHash() {
@@ -34,11 +34,11 @@ class Block {
     resolveTransactions() {
         let transactions = this.data.transactions;
         transactions.forEach(transaction => {
-            this.addMoney(transaction.to, transaction.amount);
+            this.addMoney(transaction.from, transaction.to, transaction.amount);
         });
     }
 
-    addMoney(receiver, amount) {
+    addMoney(sender, receiver, amount) {
         let moneyTable = this.data.moneyTable || [];
         let entry = moneyTable.find(entry => entry.name == receiver);
         if (!entry) {
@@ -46,17 +46,18 @@ class Block {
             moneyTable.push(entry);
         }
 
+        if (sender != 'BlockReward') {
+            let entrySender = moneyTable.find(e => e.name == sender);
+            if (!entrySender) {
+                entrySender = { name: receiver, amount: 0 };
+                moneyTable.push(entrySender);
+            }
+            entrySender.amount -= amount;
+        } 
+
         entry.amount += amount;
         console.log('UPDATED MONEY TABLE: ', moneyTable);
         this.data.moneyTable = moneyTable;
         updateGraphData(moneyTable);
-    }
-
-    mineOld() {
-        let hash = this.createHash();
-        while (!hash.startsWith(this.difficulty)) {
-            this.nonce++;
-            hash = this.createHash();
-        }
     }
 }
