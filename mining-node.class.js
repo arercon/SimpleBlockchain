@@ -5,8 +5,8 @@ class MiningNode {
     isMining = false;
     currentBlock;
 
-    constructor() {
-
+    constructor(id) {
+        this.id = id;
     }
 
     toggle() {
@@ -24,9 +24,9 @@ class MiningNode {
         }
     }
 
-    mine() {
+    async mine() {
         this.currentBlock = new Block(Date.now(), DEFAULT_DATA);
-        blockchain.addBlock(this.currentBlock);
+        await blockchain.addBlock(this.currentBlock, this.id);
         if(this.isMining) {
             this.mine();
         }

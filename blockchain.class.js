@@ -3,11 +3,16 @@ class Blockchain {
         this.chain = [];
     }
 
-    addBlock(block) {
-        const lastBlock = this.getLastBlock();
-        block.lastHash = lastBlock ? lastBlock.createHash() : null;
-        block.mine();
-        this.chain.push(Object.freeze(block));
+    async addBlock(block, nodeID) {
+        let lastBlock = this.getLastBlock();
+        block.lastHash = lastBlock ? lastBlock.createHash() : '';
+        try {
+            await block.mine();
+            this.chain.push(Object.freeze(block));
+            log(`Node ${nodeID} mined a block. Total blocks: ${this.chain.length}`);
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     isValid() {
@@ -26,5 +31,3 @@ class Blockchain {
         return this.chain[this.chain.length - 1];
     }
 }
-
-module.exports = { Blockchain };
