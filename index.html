@@ -74,6 +74,7 @@
         </section>
     </div>
 
+    <script src="broadcaster.js"></script>
     <script src="sha256.js"></script>
     <script src="block.class.js"></script>
     <script src="blockchain.class.js"></script>
@@ -81,14 +82,13 @@
     <script src="script.js"></script>
     <script>
         const ctx = document.getElementById('myChart');
-
-        new Chart(ctx, {
+        const myChart = new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: ['Jannek', 'Marius', 'Timo', 'Carl', 'Henning', 'Luxy'],
+                labels: CHART_DATA.labels,
                 datasets: [{
                     label: '# of Votes',
-                    data: [12, 19, 3, 5, 2, 3],
+                    data: CHART_DATA.amounts,
                     borderWidth: 1,
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.2)', // Red

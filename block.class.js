@@ -15,14 +15,13 @@ class Block {
         let hash = this.createHash();
         return new Promise((resolve, reject) => {
             let i = setInterval(() => {
-                debugger;
                 if (this.kill) {
                     clearInterval(i);
                     reject('Block mining interrupted');
                 }
                 if (hash.startsWith(this.difficulty)) {
-                    // console.log('Block mined:', hash);
                     clearInterval(i);
+                    this.resolveTransactions();
                     resolve();
                 } else {
                     this.nonce++;
@@ -30,6 +29,27 @@ class Block {
                 }
             }, 1000 / 30);
         });
+    }
+
+    resolveTransactions() {
+        let transactions = this.data.transactions;
+        transactions.forEach(transaction => {
+            this.addMoney(transaction.to, transaction.amount);
+        });
+    }
+
+    addMoney(receiver, amount) {
+        let moneyTable = this.data.moneyTable || [];
+        let entry = moneyTable.find(entry => entry.name == receiver);
+        if (!entry) {
+            entry = { name: receiver, amount: 0 };
+            moneyTable.push(entry);
+        }
+
+        entry.amount += amount;
+        console.log('UPDATED MONEY TABLE: ', moneyTable);
+        this.data.moneyTable = moneyTable;
+        updateGraphData(moneyTable);
     }
 
     mineOld() {

@@ -5,9 +5,11 @@ class Blockchain {
 
     async addBlock(block, nodeID) {
         let lastBlock = this.getLastBlock();
+        block.data.moneyTable = lastBlock ? lastBlock.data.moneyTable : [];
         block.lastHash = lastBlock ? lastBlock.createHash() : '';
         try {
             await block.mine();
+            broadcaster.notify(nodeID);
             this.chain.push(Object.freeze(block));
             log(`Node ${nodeID} mined a block. Total blocks: ${this.chain.length}`);
         } catch (error) {
