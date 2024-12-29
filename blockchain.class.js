@@ -6,6 +6,7 @@ class Blockchain {
     addBlock(block) {
         const lastBlock = this.getLastBlock();
         block.lastHash = lastBlock ? lastBlock.createHash() : null;
+        block.mine();
         this.chain.push(Object.freeze(block));
     }
 
